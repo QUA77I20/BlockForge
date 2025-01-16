@@ -1,0 +1,13 @@
+
+# Python
+__pycache__/
+*.pyc
+
+# Environment
+.env
+
+# OS files
+.DS_Store
+
+# Logs
+*.log

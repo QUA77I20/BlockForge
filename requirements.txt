@@ -1,0 +1,8 @@
+flask
+requests
+hashlib
+json
+fastapi
+uvicorn
+cryptography
+

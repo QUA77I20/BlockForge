@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain API Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #1e88e5;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1565c0;
+        }
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #333;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Blockchain API Interface</h1>
+
+    <!-- Проверка блокчейна -->
+    <h2>View Blockchain</h2>
+    <button onclick="getBlockchain()">View Blockchain</button>
+    <div id="blockchain-result" class="result"></div>
+
+    <!-- Создание транзакции -->
+    <h2>Create Transaction</h2>
+    <input type="text" id="sender" placeholder="Sender Address">
+    <input type="text" id="receiver" placeholder="Receiver Address">
+    <input type="number" id="amount" placeholder="Amount">
+    <button onclick="createTransaction()">Create Transaction</button>
+    <div id="transaction-result" class="result"></div>
+
+    <!-- Майнинг блока -->
+    <h2>Mine Block</h2>
+    <input type="text" id="miner-address" placeholder="Miner Address">
+    <button onclick="mineBlock()">Mine Block</button>
+    <div id="mine-result" class="result"></div>
+
+    <!-- Проверка баланса -->
+    <h2>Check Balance</h2>
+    <input type="text" id="balance-address" placeholder="Wallet Address">
+    <button onclick="checkBalance()">Check Balance</button>
+    <div id="balance-result" class="result"></div>
+
+    <!-- История транзакций -->
+    <h2>Transaction History</h2>
+    <input type="text" id="history-address" placeholder="Wallet Address">
+    <button onclick="getTransactions()">Get Transaction History</button>
+    <div id="transactions-result" class="result"></div>
+
+    <script>
+        // Функция для проверки блокчейна
+        async function getBlockchain() {
+            const response = await fetch('/chain');
+            const data = await response.json();
+            document.getElementById('blockchain-result').innerText = JSON.stringify(data, null, 2);
+        }
+
+        // Функция для создания транзакции
+        async function createTransaction() {
+            const sender = document.getElementById('sender').value;
+            const receiver = document.getElementById('receiver').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+
+            const response = await fetch('/transaction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    sender: sender,
+                    receiver: receiver,
+                    amount: amount
+                })
+            });
+
+            const result = await response.json();
+            document.getElementById('transaction-result').innerText = JSON.stringify(result, null, 2);
+        }
+
+        // Функция для майнинга блока
+        async function mineBlock() {
+            const minerAddress = document.getElementById('miner-address').value;
+
+            const response = await fetch(`/mine/${minerAddress}`);
+            const result = await response.json();
+            document.getElementById('mine-result').innerText = JSON.stringify(result, null, 2);
+        }
+
+        // Функция для проверки баланса
+        async function checkBalance() {
+            const address = document.getElementById('balance-address').value;
+
+            const response = await fetch(`/balance/${address}`);
+            const result = await response.json();
+            document.getElementById('balance-result').innerText = JSON.stringify(result, null, 2);
+        }
+
+        // Функция для получения истории транзакций
+        async function getTransactions() {
+            const address = document.getElementById('history-address').value;
+
+            const response = await fetch(`/transactions/${address}`);
+            const result = await response.json();
+            document.getElementById('transactions-result').innerText = JSON.stringify(result, null, 2);
+        }
+    </script>
+</body>
+</html>

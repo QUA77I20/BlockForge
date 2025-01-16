@@ -1,0 +1,161 @@
+# Blockchain Project Documentation
+
+## Table of Contents
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Front-End Interface](#front-end-interface)
+- [License](#license)
+
+---
+
+## Introduction
+This project is a fully functional blockchain implementation with a built-in API using FastAPI. The blockchain supports basic functionalities such as creating wallets, making transactions, mining blocks, and checking balances. The project also includes a front-end interface for interacting with the blockchain without using the terminal.
+
+## Installation
+To run the project locally, follow these steps:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/YourGitHubUsername/YourRepositoryName.git
+   cd YourRepositoryName
+   ```
+
+2. Create a virtual environment and activate it:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Run the FastAPI server:
+   ```bash
+   uvicorn src.node:app --reload
+   ```
+
+5. Open your browser and go to:
+   ```
+   http://127.0.0.1:8080/static/index.html
+   ```
+
+---
+
+## Usage
+### Directory Structure:
+```
+Blockchain-Project/
+│
+├── .venv/               # Virtual environment
+├── src/
+│   ├── network/         # Core blockchain logic
+│   ├── static/          # Front-end files
+│   ├── blockchain.py    # Blockchain class
+│   ├── main.py          # Entry point
+│   ├── node.py          # API routes
+│   ├── wallet.py        # Wallet class
+│   └── utils.py         # Utility functions
+├── LICENSE              # License file
+├── README.md            # Project documentation
+└── requirements.txt     # Dependencies
+```
+
+---
+
+## API Endpoints
+
+### 1. **GET /chain**
+Returns the entire blockchain.
+
+**Example:**
+```bash
+curl -X GET http://localhost:8080/chain
+```
+
+### 2. **POST /transaction**
+Adds a new transaction to the pool.
+
+**Body:**
+```json
+{
+    "sender": "<wallet_address>",
+    "receiver": "<wallet_address>",
+    "amount": <amount>
+}
+```
+**Example:**
+```bash
+curl -X POST http://localhost:8080/transaction \
+-H "Content-Type: application/json" \
+-d '{"sender":"address1","receiver":"address2","amount":10}'
+```
+
+### 3. **GET /mine/{miner_address}**
+Mines a new block and rewards the miner.
+
+**Example:**
+```bash
+curl -X GET http://localhost:8080/mine/your_wallet_address
+```
+
+### 4. **GET /balance/{address}**
+Checks the balance of a given wallet address.
+
+**Example:**
+```bash
+curl -X GET http://localhost:8080/balance/your_wallet_address
+```
+
+### 5. **GET /transactions/{address}**
+Returns the transaction history for a specific wallet address.
+
+**Example:**
+```bash
+curl -X GET http://localhost:8080/transactions/your_wallet_address
+```
+
+### 6. **POST /issue**
+Issues new coins to a specified wallet address (admin-only).
+
+**Body:**
+```json
+{
+    "address": "<wallet_address>",
+    "amount": <amount>
+}
+```
+**Example:**
+```bash
+curl -X POST http://localhost:8080/issue \
+-H "Content-Type: application/json" \
+-d '{"address":"wallet_address","amount":1000}'
+```
+
+---
+
+## Front-End Interface
+The front-end interface is available at:
+```
+http://127.0.0.1:8080/static/index.html
+```
+
+### Features:
+1. **View Blockchain**: Displays the current state of the blockchain.
+2. **Create Transaction**: Allows users to create a transaction by entering sender and receiver addresses and the amount.
+3. **Mine Block**: Mines a new block with the unconfirmed transactions.
+4. **Check Balance**: Checks the balance of any wallet address.
+5. **Transaction History**: Retrieves the transaction history of a specific wallet.
+
+---
+
+## License
+```text
+Copyright © 2025 Marc
+All rights reserved.
+Unauthorized use, reproduction, or distribution of this code is strictly prohibited.
+```
+
